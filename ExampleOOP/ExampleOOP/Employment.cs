@@ -152,6 +152,101 @@ namespace ExampleOOP
         #endregion
 
         #region Methods
+
+        //method syntax: accesslevel [override][static] rdt methodName([list of parameters])
+
+        //you might need to dump the content of your instance into a string
+        //there is a default method for every class but you might need to override it!
+        public override string ToString()
+        {
+            //we mioght want to return a csv list of the data
+            //we might want to return a certain format
+            //ex: Project Leader II, TeamLeader, Sep 11, 2010, 13.8 (the comma in the date might be an issue)
+                //correct it to not return the comma
+                //ex: Project Leader II,TeamLeader,Sep 11 2010,13.8
+            return $"{Title},{Level},{StartDate.ToString("MMM dd yyyy")},{Years.ToString()}";
+        }
+
+        //Validation as well can be done in multiple places
+            //Can validate in the property
+            //Can validate in the constructor
+            //Can validate in a method
+        public void SetEmploymentResponsibilityLevel(SupervisoryLevel level)
+        {
+            //already validated in the property
+            Level = level;
+        }
+
+        public void CorrectStartDate(DateTime startDate)
+        {
+            //since the startDate is only validated in the constructor (auto-implemented property)
+            //Anytime we are setting it in a method we want to validate it
+
+            if (startDate > DateTime.Today)
+            {
+                throw new ArgumentException($"The start date {startDate} is in the future");
+            }
+            StartDate = startDate;
+        }
+
+        public double UpdateCurrentEmploymentYearsExperience()
+        {
+            TimeSpan span = DateTime.Now - StartDate;
+            Years = Math.Round((span.Days / 365.25), 1);
+            return Years;
+        }
+
+        //Parsing(string)
+        //attempot to change the content of the provided string value (csv) to another datatype
+
+        //parsing for this class will assume the passed string value will resemble the greedy constructor
+        //parsing methods contain basic validation on the number fields
+            //for example: string 55 --> int.Parse(string); <-- successful
+            // string bob --> int.Parse(string); <-- failure -- abort the parse with a message
+
+        //If we can parse with ints why can't we parse our Employment class
+
+        //this method will need to be called without an instance of the class existing!
+        //this means the method must be static
+        public static Employment Parse(string item)
+        {
+            //we have to make sure we break apart the item string
+            //You could use a different delimator but we are using a comma as this is mimicking csv
+            string[] parts = item.Split(',');
+
+            //want to check if the right amount of parts are provided
+            if(parts.Length != 4)
+            {
+                throw new FormatException($"String not in the expected format. Missing or excessive value(s): {item}");
+            }
+
+            //return an instance of the Employment class
+            //take the separates parts and use them in the Constructor
+            return new Employment(parts[0],
+                                    (SupervisoryLevel)Enum.Parse(typeof(SupervisoryLevel), parts[1]),
+                                    DateTime.Parse(parts[2]),
+                                    double.Parse(parts[3]));
+        }
+
+        //we can also make a TryParse
+        //the TryParse method will take in a string and return a bool value to say if the Parse was a success or not
+        //the TryParse also outputs an instance of the class
+            // Example xxxx.TryParse(string, out datatype parameterValue)
+
+        public static bool TryParse(string item, out Employment result)
+        {
+            result = null;
+            try
+            {
+                //use code I've already written
+                result = Parse(item);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         #endregion
     }
 }
