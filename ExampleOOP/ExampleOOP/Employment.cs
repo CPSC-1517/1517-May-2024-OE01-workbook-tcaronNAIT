@@ -51,7 +51,7 @@ namespace ExampleOOP
             //years cannot be a negative
             set
             {
-                if (value < 0.0)
+                if (!Utilities.IsPositive(value))
                 {
                     throw new ArgumentException($"Years {value} is less than 0. Years must be positive");
                 }
@@ -157,20 +157,26 @@ namespace ExampleOOP
 
         //you might need to dump the content of your instance into a string
         //there is a default method for every class but you might need to override it!
-        public override string ToString()
-        {
-            //we mioght want to return a csv list of the data
-            //we might want to return a certain format
-            //ex: Project Leader II, TeamLeader, Sep 11, 2010, 13.8 (the comma in the date might be an issue)
-                //correct it to not return the comma
-                //ex: Project Leader II,TeamLeader,Sep 11 2010,13.8
-            return $"{Title},{Level},{StartDate.ToString("MMM dd yyyy")},{Years.ToString()}";
-        }
+
+        //public override string ToString()
+        //{
+        //    //we mioght want to return a csv list of the data
+        //    //we might want to return a certain format
+        //    //ex: Project Leader II, TeamLeader, Sep 11, 2010, 13.8 (the comma in the date might be an issue)
+        //        //correct it to not return the comma
+        //        //ex: Project Leader II,TeamLeader,Sep 11 2010,13.8
+        //    return $"{Title},{Level},{StartDate.ToString("MMM dd yyyy")},{Years.ToString()}";
+        //}
+
+        //Value = Value + 1;
+        //Value += 1;
+
+        public override string ToString() => $"{Title},{Level},{StartDate.ToString("MMM dd yyyy")},{Years.ToString()}";
 
         //Validation as well can be done in multiple places
-            //Can validate in the property
-            //Can validate in the constructor
-            //Can validate in a method
+        //Can validate in the property
+        //Can validate in the constructor
+        //Can validate in a method
         public void SetEmploymentResponsibilityLevel(SupervisoryLevel level)
         {
             //already validated in the property
