@@ -72,7 +72,7 @@ namespace ExampleOOP
                 //        xxxx is the Enum name
                 if (!Enum.IsDefined(typeof(SupervisoryLevel), value))
                 {
-                    throw new ArgumentException($"Supervisory level is invalid {value}");
+                    throw new ArgumentException($"Supervisory level {value} is invalid");
                     //throw new ArgumentException(string.Format("Supervisory level is invalid {0}", value));
                 }
                 _level = value;
@@ -146,8 +146,9 @@ namespace ExampleOOP
             }
             else
             {
-                TimeSpan span = DateTime.Now - StartDate;
-                Years = Math.Round((span.Days / 365.25), 1);
+                //TimeSpan span = DateTime.Now - StartDate;
+                //Years = Math.Round((span.Days / 365.25), 1);
+                UpdateCurrentEmploymentYearsExperience();
             }
         }
         #endregion
@@ -172,7 +173,7 @@ namespace ExampleOOP
         //Value = Value + 1;
         //Value += 1;
 
-        public override string ToString() => $"{Title},{Level},{StartDate.ToString("MMM dd yyyy")},{Years.ToString()}";
+        public override string ToString() => $"{Title},{Level},{StartDate.ToString("MMM. dd yyyy")},{Years.ToString()}";
 
         //Validation as well can be done in multiple places
         //Can validate in the property
@@ -194,13 +195,13 @@ namespace ExampleOOP
                 throw new ArgumentException($"The start date {startDate} is in the future");
             }
             StartDate = startDate;
+            UpdateCurrentEmploymentYearsExperience();
         }
 
-        public double UpdateCurrentEmploymentYearsExperience()
+        public void UpdateCurrentEmploymentYearsExperience()
         {
             TimeSpan span = DateTime.Now - StartDate;
-            Years = Math.Round((span.Days / 365.25), 1);
-            return Years;
+            Years = Math.Round((span.Days / 365.2), 1);
         }
 
         //Parsing(string)
