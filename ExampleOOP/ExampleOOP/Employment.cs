@@ -41,7 +41,7 @@ namespace ExampleOOP
                     //use an exception
                     throw new ArgumentNullException("Title must be provided");
                 }
-                _title = value;
+                _title = value.Trim();
             }
         }
 
@@ -75,6 +75,7 @@ namespace ExampleOOP
                     throw new ArgumentException($"Supervisory level is invalid {value}");
                     //throw new ArgumentException(string.Format("Supervisory level is invalid {0}", value));
                 }
+                _level = value;
             }
         }
 
@@ -112,7 +113,7 @@ namespace ExampleOOP
         //no variables constructor
         public Employment()
         {
-            Title = "Unknown";
+            Title = "unknown";
             //by default the Level will get the 1st value of the Enum
             Level = SupervisoryLevel.TeamMember;
             StartDate = DateTime.Today;
