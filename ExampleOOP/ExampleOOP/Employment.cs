@@ -12,7 +12,7 @@ namespace ExampleOOP
         //fields, attributes, holds the pieces of data
         //data is valuable, data access should be restricted (private)
         //access or modification will have to be done by other code (components) of this class
-        private string _title = string.Empty;
+        private string _title;
         private double _years;
         private SupervisoryLevel _level;
         #endregion
@@ -143,6 +143,10 @@ namespace ExampleOOP
             if (years > 0.0)
             {
                 Years = years;
+            }
+            else if (years < 0.0) 
+            {
+                throw new ArgumentException($"Years {years} is less than 0. Years must be positive.");
             }
             else
             {
