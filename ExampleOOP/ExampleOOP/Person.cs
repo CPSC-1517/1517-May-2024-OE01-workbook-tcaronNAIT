@@ -61,8 +61,8 @@ namespace ExampleOOP
 
         public Person(string firstName, string lastName, ResidentAddress address, List<Employment> employmentPositions)
         {
-            FirstName = firstName.Trim();
-            LastName = lastName.Trim();
+            FirstName = firstName;
+            LastName = lastName;
             ResidentAddress = address;
             if(employmentPositions != null)
             {
@@ -74,8 +74,8 @@ namespace ExampleOOP
         #region Methods
         public void ChangeFullName(string firstName, string lastName)
         {
-            FirstName = firstName.Trim();
-            LastName = lastName.Trim();
+            FirstName = firstName;
+            LastName = lastName;
         }
 
         public void AddEmployment(Employment employment)
