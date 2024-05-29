@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleOOP", "ExampleOOP\Ex
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestingForSystem", "UnitTestingForSystem\UnitTestingForSystem.csproj", "{D5606AC5-4DDF-4C6E-9A40-CDF12B6E9D55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDDUnitTests", "TDDUnitTests\TDDUnitTests.csproj", "{B21FF37E-2BC3-422F-862C-E8F6D946FD8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDDUnitTests", "TDDUnitTests\TDDUnitTests.csproj", "{B21FF37E-2BC3-422F-862C-E8F6D946FD8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOPConsoleExample", "OOPConsoleExample\OOPConsoleExample.csproj", "{26E0F55C-75D3-49E1-A360-58EE1BCAC2B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{B21FF37E-2BC3-422F-862C-E8F6D946FD8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B21FF37E-2BC3-422F-862C-E8F6D946FD8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B21FF37E-2BC3-422F-862C-E8F6D946FD8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26E0F55C-75D3-49E1-A360-58EE1BCAC2B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26E0F55C-75D3-49E1-A360-58EE1BCAC2B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26E0F55C-75D3-49E1-A360-58EE1BCAC2B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26E0F55C-75D3-49E1-A360-58EE1BCAC2B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

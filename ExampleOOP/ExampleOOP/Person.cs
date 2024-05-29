@@ -32,12 +32,7 @@ namespace ExampleOOP
             get { return _lastName; }
             set
             {
-                //last name is required
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentNullException("Last name is required");
-                }
-                _lastName = value.Trim();
+                _lastName = string.IsNullOrEmpty(value) ? value : value.Trim();
             }
         }
         //AutoImplemented Properties
