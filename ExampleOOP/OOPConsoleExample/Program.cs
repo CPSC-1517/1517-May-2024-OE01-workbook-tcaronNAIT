@@ -40,7 +40,7 @@ else
 
 //Linq to return a collection from a collection
 //Add in Logic to check if there is any matching elements or not!
-if (employments.Any(x => x.Title.Contains("GG")))
+if (employments.Any(x => x.Title.Contains("PG")))
 {
     Console.WriteLine();
     var newEmployments = employments.Where(x => x.Title.Contains("PG")).ToList();
