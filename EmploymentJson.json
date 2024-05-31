@@ -1,0 +1,78 @@
+[
+  {
+    "FirstName": "Bob",
+    "LastName": "Ross",
+    "ResidentAddress": {
+      "Number": 12,
+      "Street": "Maple St.",
+      "City": "Edmonton",
+      "Province": "AB",
+      "PostalCode": "T5T 5T5"
+    },
+    "EmploymentPositions": [
+      {
+        "Title": "PG I",
+        "Years": 0.5,
+        "Level": 0,
+        "StartDate": "2010-05-01T00:00:00"
+      },
+      {
+        "Title": "PG II",
+        "Years": 3.2,
+        "Level": 1,
+        "StartDate": "2010-11-01T00:00:00"
+      },
+      {
+        "Title": "PG III",
+        "Years": 8.6,
+        "Level": 2,
+        "StartDate": "2014-01-06T00:00:00"
+      },
+      {
+        "Title": "SP I",
+        "Years": 1.8,
+        "Level": 3,
+        "StartDate": "2022-07-22T00:00:00"
+      }
+    ],
+    "FullName": "Ross, Bob"
+  },
+  {
+    "FirstName": "Fred",
+    "LastName": "George",
+    "ResidentAddress": {
+      "Number": 12,
+      "Street": "Maple St.",
+      "City": "Edmonton",
+      "Province": "AB",
+      "PostalCode": "T5T 5T5"
+    },
+    "EmploymentPositions": [
+      {
+        "Title": "PG I",
+        "Years": 0.5,
+        "Level": 0,
+        "StartDate": "2010-05-01T00:00:00"
+      },
+      {
+        "Title": "PG II",
+        "Years": 3.2,
+        "Level": 1,
+        "StartDate": "2010-11-01T00:00:00"
+      },
+      {
+        "Title": "PG III",
+        "Years": 8.6,
+        "Level": 2,
+        "StartDate": "2014-01-06T00:00:00"
+      },
+      {
+        "Title": "SP I",
+        "Years": 1.8,
+        "Level": 3,
+        "StartDate": "2022-07-22T00:00:00"
+      }
+    ],
+    "FullName": "George, Fred"
+  }
+]
