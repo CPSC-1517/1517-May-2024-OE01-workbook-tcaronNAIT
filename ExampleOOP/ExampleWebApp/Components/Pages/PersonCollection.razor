@@ -1,0 +1,138 @@
+﻿@page "/addperson"
+
+<MudText Typo="Typo.h3">Add Person</MudText>
+
+<MudText Typo="Typo.body1">Use this form to add a person.</MudText>
+
+<MudForm Class="mt-8">
+    <MudGrid>
+        <MudItem xs="12" sm="6">
+            <MudCard Outlined="true">
+                <MudCardHeader>
+                    <MudText Typo="Typo.h6">Person Info</MudText>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTextField Variant="Variant.Outlined" 
+                                  T="string" 
+                                  Label="First Name" 
+                                  @bind-Value="@firstName"
+                                  Immediate="true" />
+                    <MudTextField Variant="Variant.Outlined" 
+                                  T="string" 
+                                  Label="Last Name"
+                                  @bind-Value="@lastName"
+                                  Immediate="true" />
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudCard Outlined="true">
+                <MudCardHeader>
+                    <MudText Typo="Typo.h6">Address Info</MudText>
+                </MudCardHeader>
+                <MudCardContent>
+                    
+                    <MudNumericField T="int"
+                                     Variant="Variant.Outlined"
+                                     Min="0"
+                                     @bind-Value="@streetNumber"
+                                     Label="Street Number"
+                                     Immediate="true"/>
+                    <MudTextField Variant="Variant.Outlined"
+                                  T="string"
+                                  Label="Street Name"
+                                  @bind-Value="@streetName"
+                                  Immediate="true" />
+                    <MudTextField Variant="Variant.Outlined"
+                                  T="string"
+                                  Label="City"
+                                  @bind-Value="@city"
+                                  Immediate="true" />
+                    <MudSelect T="string" 
+                               Label="Province/Territory" 
+                               Variant="Variant.Outlined"
+                               @bind-Value="@province"
+                               Immediate="true">
+                       @foreach (string value in provinceList)
+                       {
+                            <MudSelectItem Value="value" />
+                       }
+                    </MudSelect>
+                    <MudTextField Variant="Variant.Outlined"
+                                  T="string"
+                                  Label="Postal Code"
+                                  @bind-Value="@postalCode"
+                                  Immediate="true" />
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12">
+            <MudPaper Class="d-flex flex-wrap justify-center" Elevation="0">
+                <MudSpacer />
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddPerson">Add Person</MudButton>
+                <MudSpacer />
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudForm>
+<MudPaper Class="pt-4">
+    @foreach (var error in errorMessages)
+    {
+        <MudText Typo="Typo.body2" Color="Color.Error">@error</MudText>
+    }
+</MudPaper>
+
+@code {
+    private List<string> provinceList = [];
+    private string firstName = string.Empty;
+    private string lastName = string.Empty;
+    private string city = string.Empty;
+    private string province = string.Empty;
+    private int streetNumber;
+    private string streetName = string.Empty;
+    private string postalCode = string.Empty;
+    private List<string> errorMessages= [];
+    private Person person = null;
+
+    protected override void OnInitialized()
+    {
+        provinceList = new List<string>
+        {
+            "Alberta",
+            "British Columbia",
+            "Manitoba",
+            "New Brunswick",
+            "Newfoundland and Labrador",
+            "Northwest Territories",
+            "Nova Scotia",
+            "Nunavut",
+            "Ontario",
+            "Prince Edward Island",
+            "Quebec",
+            "Saskatchewan",
+            "Yukon"
+        };
+        base.OnInitialized();
+    }
+
+    private void AddPerson()
+    {
+        try
+        {
+            person = new Person(firstName, lastName, new ResidentAddress(streetNumber, streetName, city, province, postalCode), null);
+        }
+        catch (Exception ex)
+        {
+            errorMessages.Add(GetInnerException(ex).Message);
+        }
+    }
+
+    private Exception GetInnerException(Exception ex)
+    {
+        //drill down into your Exception until there are no more inner exceptions
+        //at this point you have the "real" error
+        while (ex.InnerException != null)
+            ex = ex.InnerException;
+        return ex;
+    }
+}
