@@ -1,0 +1,95 @@
+﻿@page "/personreport"
+
+<MudText Typo="Typo.h3">Person Report</MudText>
+
+@if(errorMessages.Count > 0)
+{
+    <div class="alert alert-danger">
+        <MudText Typo="Typo.h6">Please fix the following issues:</MudText>
+        <ul>
+            @foreach (var error in errorMessages)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
+
+@if(persons.Count == 0)
+{
+    <MudText Typo="Typo.h5">Nothing to report.</MudText>
+}
+else
+{
+    <MudTable Items="persons">
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<Person, object>(x=>x.FirstName)">First Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Person, object>(x=>x.LastName)">Last Name</MudTableSortLabel></MudTh>
+            <MudTh>Street Number</MudTh>
+            <MudTh>Street Name</MudTh>
+            <MudTh>City</MudTh>
+            <MudTh>Province/Territory</MudTh>
+            <MudTh>Postal Code</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.FirstName</MudTd>
+            <MudTd>@context.LastName</MudTd>
+            <MudTd>@context.ResidentAddress.Number.ToString()</MudTd>
+            <MudTd>@context.ResidentAddress.Street</MudTd>
+            <MudTd>@context.ResidentAddress.City</MudTd>
+            <MudTd>@context.ResidentAddress.Province</MudTd>
+            <MudTd>@context.ResidentAddress.PostalCode</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+}
+
+
+@code {
+    private List<Person> persons = [];
+    private List<string> errorMessages = [];
+
+    protected override void OnInitialized()
+    {
+        string fileName = @"wwwroot/data/Persons.csv";
+        int lineCounter = 0;
+        string[] personData = { };
+        try
+        {
+            personData = File.ReadAllLines(fileName);
+            foreach (string line in personData)
+            {
+                lineCounter++;
+                persons.Add(Person.Parse(line));
+            }
+        }
+        catch (FormatException ex)
+        {
+            errorMessages.Add($"Format Error: {lineCounter}: {GetInnerException(ex).Message}");
+        }
+        catch (ArgumentNullException ex)
+        {
+            errorMessages.Add($"Null Error: {lineCounter}: {GetInnerException(ex).Message}");
+        }
+        catch (ArgumentException ex)
+        {
+            errorMessages.Add($"Argument Error: {lineCounter}: {GetInnerException(ex).Message}");
+        }
+        catch (Exception ex)
+        {
+            errorMessages.Add($"Record Error: {lineCounter}: {GetInnerException(ex).Message}");
+        }
+        base.OnInitialized();
+    }
+
+        private Exception GetInnerException(Exception ex)
+        {
+            //drill down into your Exception until there are no more inner exceptions
+            //at this point you have the "real" error
+            while (ex.InnerException != null)
+                ex = ex.InnerException;
+            return ex;
+        }
+}

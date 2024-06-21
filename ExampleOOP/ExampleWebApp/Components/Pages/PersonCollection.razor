@@ -4,7 +4,7 @@
 
 <MudText Typo="Typo.body1">Use this form to add a person.</MudText>
 
-<MudForm Class="mt-8">
+<MudForm Class="mt-8" @ref="form" @bind-Errors="errors">
     <MudGrid>
         <MudItem xs="12" sm="6">
             <MudCard Outlined="true">
@@ -16,12 +16,16 @@
                                   T="string" 
                                   Label="First Name" 
                                   @bind-Value="@firstName"
-                                  Immediate="true" />
+                                  Immediate="true"
+                                  Required
+                                  RequiredError="First name is required."/>
                     <MudTextField Variant="Variant.Outlined" 
                                   T="string" 
                                   Label="Last Name"
                                   @bind-Value="@lastName"
-                                  Immediate="true" />
+                                  Immediate="true"
+                                  Required
+                                  RequiredError="Last name is required." />
                 </MudCardContent>
             </MudCard>
         </MudItem>
@@ -37,22 +41,30 @@
                                      Min="0"
                                      @bind-Value="@streetNumber"
                                      Label="Street Number"
-                                     Immediate="true"/>
+                                     Immediate="true"
+                                     Required
+                                     RequiredError="Street number is required." />
                     <MudTextField Variant="Variant.Outlined"
                                   T="string"
                                   Label="Street Name"
                                   @bind-Value="@streetName"
-                                  Immediate="true" />
+                                  Immediate="true" 
+                                  Required
+                                  RequiredError="Street name is required." />
                     <MudTextField Variant="Variant.Outlined"
                                   T="string"
                                   Label="City"
                                   @bind-Value="@city"
-                                  Immediate="true" />
+                                  Immediate="true" 
+                                  Required
+                                  RequiredError="City is required."/>
                     <MudSelect T="string" 
                                Label="Province/Territory" 
                                Variant="Variant.Outlined"
                                @bind-Value="@province"
-                               Immediate="true">
+                               Immediate="true"
+                               Required
+                               RequiredError="Province/Territory is required.">
                        @foreach (string value in provinceList)
                        {
                             <MudSelectItem Value="value" />
@@ -62,20 +74,36 @@
                                   T="string"
                                   Label="Postal Code"
                                   @bind-Value="@postalCode"
-                                  Immediate="true" />
+                                  Immediate="true"
+                                  Required
+                                  RequiredError="Postal code is required." />
                 </MudCardContent>
             </MudCard>
         </MudItem>
         <MudItem xs="12">
             <MudPaper Class="d-flex flex-wrap justify-center" Elevation="0">
-                <MudSpacer />
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddPerson">Add Person</MudButton>
                 <MudSpacer />
+                <MudButton Variant="Variant.Filled" Color="Color.Warning" OnClick="ClearForm">Clear</MudButton>
+                <MudSpacer />
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary">
+                    <MudNavLink Href="/personreport">
+                        View Report    
+                    </MudNavLink>
+                </MudButton>
             </MudPaper>
         </MudItem>
     </MudGrid>
 </MudForm>
-<MudPaper Class="pt-4">
+<MudPaper Class="pt-4" Elevation="0">
+    @if(!string.IsNullOrWhiteSpace(successMessage))
+    {
+        <MudText Typo="Typo.body2" Color="Color.Success">@successMessage</MudText>
+    }
+    @foreach(var error in errors)
+    {
+        <MudText Typo="Typo.body2" Color="Color.Error">@error</MudText>
+    }
     @foreach (var error in errorMessages)
     {
         <MudText Typo="Typo.body2" Color="Color.Error">@error</MudText>
@@ -93,6 +121,9 @@
     private string postalCode = string.Empty;
     private List<string> errorMessages= [];
     private Person person = null;
+    private MudForm form = new();
+    private string[] errors = { };
+    private string successMessage = string.Empty;
 
     protected override void OnInitialized()
     {
@@ -117,14 +148,37 @@
 
     private void AddPerson()
     {
-        try
+        errorMessages.Clear();
+        form.Validate();
+        if(form.IsValid)
         {
-            person = new Person(firstName, lastName, new ResidentAddress(streetNumber, streetName, city, province, postalCode), null);
+            try
+            {
+                person = new Person(firstName, lastName, new ResidentAddress(streetNumber, streetName, city, province, postalCode), null);
+                string fileName = @"wwwroot/data/Persons.csv";
+                string line = $"{person.ToString()}\n";
+                File.AppendAllText(fileName, line);
+                successMessage = $"{firstName} {lastName} added successfully!";
+            }
+            catch (Exception ex)
+            {
+                errorMessages.Add(GetInnerException(ex).Message);
+            }
         }
-        catch (Exception ex)
-        {
-            errorMessages.Add(GetInnerException(ex).Message);
-        }
+    }
+
+    private void ClearForm()
+    {
+        form.ResetAsync();
+        // firstName = "";
+        // lastName = "";
+        // streetNumber = 0;
+        // streetName = "";
+        // city = "";
+        // province = "";
+        // postalCode = "";
+        errorMessages.Clear();
+        successMessage = string.Empty;
     }
 
     private Exception GetInnerException(Exception ex)
