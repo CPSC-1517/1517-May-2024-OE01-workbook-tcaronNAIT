@@ -1,0 +1,81 @@
+﻿@page "/basicevents"
+
+
+    @* the page directive MUST be the first PHYSICAL line in the .razor file
+    It include the routing directive used by the nav menu to identify
+    which component to use on the web page *@
+
+
+<!--
+    The pagetitle allows you to specify what text shows up on the browser tab!
+-->
+<PageTitle>Basic Events</PageTitle>
+
+    @* You can add in .Net 8 @rendermode
+    This indicates the interactiovity of the rendering mode
+    If not global you need this to make any interactions work on the page
+
+    @rendermode InteractiveServer *@
+
+
+<h3>Basic Button Events</h3>
+<h5 style="color:blueviolet;font-style:italic;">Learning about buttons and events!</h5>
+
+<blockquote style="background-color:bisque">
+    This page will demonstate the basics of button events.
+
+    It will use a &lt;input&gt; control to ask for some user input.
+
+    It will use a &lt;button&gt; control to process the input.
+
+    It will demo the basic use of C# code to do the processing.
+</blockquote>
+
+@* when we see the @ it indicates there is C# *@
+@if(displayForm)
+{
+    @* 
+        the input control needs to be bound with @bind to a variable
+        @bind-value can be used as well but does not include the onchange event
+        (changes are not registered for the input until the button is clicked with @bind-value)
+    *@
+  
+    <div class="container text-center">
+        <div class="row">
+            <label for="dataitem">
+                Enter Something:
+                <input type="text" id="dataitem" @bind="inputValue" />
+            </label>
+        </div>
+        <div class="row">
+            <button type="submit" id="fordemobutton" name="csharpidentifier"
+                    value="datavalueforbutton"
+                    class="btn btn-outline-primary"
+                    @onclick="OnClickMethod">
+                Click Me!
+            </button>
+        </div>
+        <div class="row">
+            <p>@feedback</p>
+        </div>
+    </div>
+    
+    @*
+
+    *@
+   
+}
+
+
+
+@code {
+    bool displayForm = true;
+
+    private string inputValue = "";
+    private string feedback = "";
+
+    private void OnClickMethod()
+    {
+        feedback = $"You enter the value {inputValue}!";
+    }
+}
