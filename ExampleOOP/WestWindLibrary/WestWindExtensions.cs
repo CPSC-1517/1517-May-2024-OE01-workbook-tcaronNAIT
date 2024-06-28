@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WestWindLibrary.BLL;
 using WestWindLibrary.DAL;
 
 namespace WestWindLibrary
@@ -20,7 +21,15 @@ namespace WestWindLibrary
             //handle the connection string
             //adds the context class to the services (IServiceCollection)
             services.AddDbContext<WestWindContext>(options);
-        }
 
+            //register ANY BLL services
+            //to register a service class you will use the IServiceCollection method
+            //Any time you require outside access to a service class you MUST register it
+            services.AddTransient<ProductServices>((serviceProvider) =>
+            {
+                var context = serviceProvider.GetService<WestWindContext>();
+                return new ProductServices(context);
+            });
+        }
     }
 }

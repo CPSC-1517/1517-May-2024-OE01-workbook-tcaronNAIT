@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleWebApp", "ExampleWeb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WestWindLibrary", "WestWindLibrary\WestWindLibrary.csproj", "{20FFDEF2-56C5-48F5-87A2-44EC69A1852A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WestWindWebApp", "WestWindWebApp\WestWindWebApp.csproj", "{2CC34CDE-0273-436B-983E-06346CF85DF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WestWindWebApp", "WestWindWebApp\WestWindWebApp.csproj", "{2CC34CDE-0273-436B-983E-06346CF85DF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
