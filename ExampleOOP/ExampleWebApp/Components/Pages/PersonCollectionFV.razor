@@ -1,4 +1,4 @@
-﻿@page "/addperson"
+﻿@page "/addpersonfv"
 
 <PageTitle>Add Person</PageTitle>
 @inject IJSRuntime JSRunTime
@@ -8,7 +8,7 @@
 
 <MudText Typo="Typo.body1">Use this form to add a person.</MudText>
 
-<MudForm Class="mt-8" @ref="form" @bind-Errors="errors">
+<MudForm Class="mt-8" Model="newPerson" @ref="form" Validation="personValidator.ValidateValue">
     <MudGrid>
         <MudItem xs="12" sm="6">
             <MudCard Outlined="true">
@@ -19,17 +19,15 @@
                     <MudTextField Variant="Variant.Outlined" 
                                   T="string" 
                                   Label="First Name" 
-                                  @bind-Value="@firstName"
+                                  @bind-Value="@newPerson.FirstName"
                                   Immediate="true"
-                                  Required
-                                  RequiredError="First name is required."/>
+                                  For="@(() => newPerson.FirstName)" />
                     <MudTextField Variant="Variant.Outlined" 
                                   T="string" 
                                   Label="Last Name"
-                                  @bind-Value="@lastName"
+                                  @bind-Value="@newPerson.LastName"
                                   Immediate="true"
-                                  Required
-                                  RequiredError="Last name is required." />
+                                  For="@(() => newPerson.LastName)" />
                 </MudCardContent>
             </MudCard>
         </MudItem>
@@ -39,7 +37,6 @@
                     <MudText Typo="Typo.h6">Address Info</MudText>
                 </MudCardHeader>
                 <MudCardContent>
-                    
                     <MudNumericField T="int"
                                      Variant="Variant.Outlined"
                                      Min="0"
@@ -77,10 +74,9 @@
                     <MudTextField Variant="Variant.Outlined"
                                   T="string"
                                   Label="Postal Code"
-                                  @bind-Value="@postalCode"
+                                  @bind-Value="@newPerson.PostalCode"
                                   Immediate="true"
-                                  Required
-                                  RequiredError="Postal code is required." />
+                                  For="@(() => newPerson.PostalCode)"/>
                 </MudCardContent>
             </MudCard>
         </MudItem>
