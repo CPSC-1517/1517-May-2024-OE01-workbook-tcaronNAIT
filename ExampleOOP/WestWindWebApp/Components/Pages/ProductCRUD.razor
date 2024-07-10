@@ -21,33 +21,19 @@ else
 {
     <MudTable Items="products">
         <HeaderContent>
-            <MudTh><MudTableSortLabel SortBy="new Func<Product, object>(x=>x.ProductId)">Product ID</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<Product, object>(x=>x.ProductName)">Product Name</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<Product, object>(x=>x.UnitPrice)">Unit Price</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<Product, object>(x=>x.Category.CategoryName)">Category</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ProductListDTO, object>(x=>x.ProductId)">Product ID</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ProductListDTO, object>(x=>x.ProductName)">Product Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ProductListDTO, object>(x=>x.UnitPrice)">Unit Price</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ProductListDTO, object>(x=>x.CategoryName)">Category</MudTableSortLabel></MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.ProductId</MudTd>
             <MudTd>@context.ProductName</MudTd>
             <MudTd>@context.UnitPrice</MudTd>
-            <MudTd>@context.Category.CategoryName</MudTd>
+            <MudTd>@context.CategoryName</MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager />
         </PagerContent>
     </MudTable>
-}
-
-
-@code {
-    private List<Product> products = [];
-    private List<string> errorMessages = [];
-
-    [Inject]
-    private ProductServices _productServices { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        products = await _productServices.GetAllProducts();
-    }
 }
