@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35103.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleWestWind", "ExampleWestWind\ExampleWestWind.csproj", "{F9509928-252D-4302-83B5-C372915071CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleWestWind", "ExampleWestWind\ExampleWestWind.csproj", "{F9509928-252D-4302-83B5-C372915071CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WestWindDB", "WestWindDB\WestWindDB.csproj", "{D3BA1B84-C75A-4E0A-B6E0-C5E15A654079}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WestWindDB", "WestWindDB\WestWindDB.csproj", "{D3BA1B84-C75A-4E0A-B6E0-C5E15A654079}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,13 @@
 using ExampleWestWind.Components;
+using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
+using WestWindDB;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("WWDB");
+
+builder.Services.WestWindExtentionServices(options => options.UseSqlServer(connectionString));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

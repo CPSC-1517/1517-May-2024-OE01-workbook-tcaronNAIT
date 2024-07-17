@@ -10,4 +10,8 @@
     <PackageReference Include="MudBlazor" Version="7.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WestWindDB\WestWindDB.csproj" />
+  </ItemGroup>
+
 </Project>
