@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,8 @@ namespace WestWindDB.BLL
 
 		public List<Order> GetOrders_ByCustomerName(string customerName)
 		{
-            return _context.Orders.Include(o => o.SalesRep).Include(o => o.Customer).OrderBy(o => o.SalesRep.FirstName).ThenBy(o => o.SalesRep.LastName).Where(o => o.Customer.CompanyName.Contains(customerName)).ToList();
+            return _context.Orders.Include(o => o.SalesRep).Include(o => o.Customer).OrderBy(o => o.SalesRep.FirstName).ThenBy(o => o.SalesRep.LastName).Where(o => o.Customer.CompanyName.ToLower().Contains(customerName.ToLower())).ToList();
+			//return _context.Orders.Include(o => o.SalesRep).Include(o => o.Customer).OrderBy(o => o.SalesRep.FirstName).ThenBy(o => o.SalesRep.LastName).Where(o => CultureInfo.CurrentCulture.CompareInfo.IndexOf(o.Customer.CompanyName, customerName, CompareOptions.IgnoreCase) >= 0).ToList();
         }
 
 		#endregion

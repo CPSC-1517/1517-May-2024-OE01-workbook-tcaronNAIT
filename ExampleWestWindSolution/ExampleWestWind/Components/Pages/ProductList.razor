@@ -1,0 +1,61 @@
+﻿@page "/products"
+<PageTitle>Product Search</PageTitle>
+
+<MudText Typo="Typo.h4">Product Search</MudText>
+
+@if (errorMessages.Count > 0)
+{
+    <MudPaper Elevation="0" Outlined="true">
+        <MudText Typo="Typo.h6">Please fix the following issues:</MudText>
+        @foreach (var error in errorMessages)
+        {
+            <MudText Color="Color.Error" Typo="Typo.body2">@error</MudText>
+        }
+    </MudPaper>
+}
+
+@if (products.Count == 0 && !noProducts)
+{
+    <MudText Typo="Typo.h5">Select a category to see the products.</MudText>
+}
+else if (noProducts)
+{
+    <MudText Typo="Typo.h5">No products in the selected category.</MudText>
+}
+else
+{
+    <MudTable Items="products" Loading="@loading">
+        <HeaderContent>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<Product, object>(x=>x.ProductID)">Product ID</MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<Product, object>(x=>x.ProductName)">Product Name</MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<Product, object>(x=>x.Supplier.CompanyName)">Supplier</MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<Product, object>(x=>x.Category.CategoryName)">Category</MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<Product, object>(x=>x.QuantityPerUnit)">Quantity Per Unit</MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<Product, object>(x=>x.UnitPrice)">Price</MudTableSortLabel>
+            </MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Product ID">@context.ProductID</MudTd>
+            <MudTd DataLabel="Product Name">@context.ProductName</MudTd>
+            <MudTd DataLabel="Supplier">@context.Supplier.CompanyName</MudTd>
+            <MudTd DataLabel="Category">@context.Category.CategoryName</MudTd>
+            <MudTd DataLabel="Quantity Per Unit">@context.QuantityPerUnit</MudTd>
+            <MudTd DataLabel="Price">@context.UnitPrice</MudTd>
+        </RowTemplate>
+       <PagerContent>
+            <MudTablePager HideRowsPerPage="true"
+                           PageSizeOptions="new int[] {6}" />
+       </PagerContent>
+    </MudTable> 
+}
