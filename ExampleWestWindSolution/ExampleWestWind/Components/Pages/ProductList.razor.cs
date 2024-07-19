@@ -10,21 +10,59 @@ namespace ExampleWestWind.Components.Pages
         private List<string> errorMessages = [];
         private bool noProducts = false;
         private bool loading = true;
+        private string categorySearch = string.Empty;
+        private List<Category> categories = [];
 
         [Inject] ProductServices _productServices { get; set; }
+        [Inject] CategoryServices _categoryServices { get; set; }
 
         protected override void OnInitialized()
         {
             try
             {
-                products = _productServices.GetAllProducts();
+                categories = _categoryServices.GetCategories();
             }
             catch (Exception ex)
             {
-                errorMessages.Add(ex.Message);
+                errorMessages.Add(GetInnerException(ex).Message);
             }
+            
             loading = false;
             base.OnInitialized();
+        }
+
+        private void SearchProducts()
+        {
+            products.Clear();
+            errorMessages.Clear();
+            noProducts = false;
+            if(string.IsNullOrWhiteSpace(categorySearch))
+            {
+                errorMessages.Add("Please select a category to search for products.");
+            }
+            else
+            {
+                try
+                {
+                    products = _productServices.GetProducts_ByCategory(categorySearch);
+                    if(products.Count == 0)
+                    {
+                        noProducts = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    errorMessages.Add(GetInnerException(ex).Message);
+                }
+            }
+            
+        }
+
+        private Exception GetInnerException(Exception ex)
+        {
+            while (ex.InnerException != null)
+                ex = ex.InnerException;
+            return ex;
         }
 
     }

@@ -23,6 +23,11 @@ namespace WestWindDB.BLL
         {
             return _context.Products.Include(p=>p.Supplier).Include(p=>p.Category).ToList();
         }
+
+        public List<Product> GetProducts_ByCategory(string category)
+        {
+            return _context.Products.Include(p => p.Supplier).Include(p => p.Category).Where(p=>p.Category.CategoryName.ToLower().Equals(category.ToLower())).ToList();
+        }
         #endregion
     }
 }

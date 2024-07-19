@@ -22,6 +22,12 @@ namespace WestWindDB
                 var context = serviceProvider.GetService<WestWindContext>();
                 return new ProductServices(context);
             });
+
+            services.AddTransient<CategoryServices>((serviceProvider) =>
+            {
+                var context = serviceProvider.GetService<WestWindContext>();
+                return new CategoryServices(context);
+            });
         }
 	}
 }

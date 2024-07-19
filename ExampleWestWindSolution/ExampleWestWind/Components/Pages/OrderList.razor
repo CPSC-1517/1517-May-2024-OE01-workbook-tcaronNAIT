@@ -14,7 +14,7 @@
         }
     </MudPaper>
 }
-<MudGrid Justify="Justify.Center">
+<MudGrid Justify="Justify.Center" Class="mb-4">
     <MudItem xs="12" sm="6">
         <MudTextField T="string"
                       @bind-Value="customerSearch"
@@ -22,7 +22,7 @@
                       Variant="Variant.Outlined"
                       Immediate="true" />
     </MudItem>
-    <MudItem xs="12" sm="6">
+    <MudItem xs="12" sm="6" Class="d-flex flex-wrap align-center">
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SearchOrders">Search Orders</MudButton>
     </MudItem>
 </MudGrid>

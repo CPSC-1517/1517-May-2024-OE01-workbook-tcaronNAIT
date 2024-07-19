@@ -13,7 +13,27 @@
         }
     </MudPaper>
 }
-
+<MudGrid Class="mb-4">
+    <MudItem xs="12" sm="6">
+        <MudSelect T="string"
+                   @bind-Value="categorySearch"
+                   Immediate="true"
+                   Label="Select a Category"
+                   Variant="Variant.Outlined">
+            @foreach(var category in categories)
+            {
+                <MudSelectItem Value="category.CategoryName">@category.CategoryName</MudSelectItem>
+            }       
+        </MudSelect>
+    </MudItem>
+    <MudItem xs="12" sm="6" Class="d-flex flex-wrap align-center">
+        <MudButton Variant="Variant.Filled"
+                   OnClick="SearchProducts"
+                   Color="Color.Primary">
+            Search Products
+        </MudButton>
+    </MudItem>
+</MudGrid>
 @if (products.Count == 0 && !noProducts)
 {
     <MudText Typo="Typo.h5">Select a category to see the products.</MudText>
