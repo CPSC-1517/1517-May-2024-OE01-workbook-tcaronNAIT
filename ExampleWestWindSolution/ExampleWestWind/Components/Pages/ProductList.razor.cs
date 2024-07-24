@@ -15,12 +15,13 @@ namespace ExampleWestWind.Components.Pages
 
         [Inject] ProductServices _productServices { get; set; }
         [Inject] CategoryServices _categoryServices { get; set; }
+        [Inject] NavigationManager _navigationManager { get; set; }
 
         protected override void OnInitialized()
         {
             try
             {
-                categories = _categoryServices.GetCategories();
+                categories = _categoryServices.GetAllCategories();
             }
             catch (Exception ex)
             {
@@ -56,6 +57,11 @@ namespace ExampleWestWind.Components.Pages
                 }
             }
             
+        }
+
+        private void EditProduct(int productId)
+        {
+            _navigationManager.NavigateTo($"product/{productId}");
         }
 
         private Exception GetInnerException(Exception ex)

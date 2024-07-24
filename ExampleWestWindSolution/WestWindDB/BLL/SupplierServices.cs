@@ -8,20 +8,19 @@ using WestWindDB.Entities;
 
 namespace WestWindDB.BLL
 {
-    public class CategoryServices
+    public class SupplierServices
     {
         private readonly WestWindContext _context;
 
-        internal CategoryServices(WestWindContext context)
+        internal SupplierServices(WestWindContext context)
         {
             _context = context;
         }
 
         #region Queries
-
-        public List<Category> GetAllCategories()
+        public List<Supplier> GetAllSuppliers()
         {
-            return _context.Categories.OrderBy(c=>c.CategoryName).ToList();
+            return _context.Suppliers.OrderBy(s => s.CompanyName).ToList();
         }
         #endregion
     }

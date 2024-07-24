@@ -64,6 +64,7 @@ else
             <MudTh>
                 <MudTableSortLabel SortBy="new Func<Product, object>(x=>x.UnitPrice)">Price</MudTableSortLabel>
             </MudTh>
+            <MudTh>Actions</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Product ID">@context.ProductID</MudTd>
@@ -72,6 +73,9 @@ else
             <MudTd DataLabel="Category">@context.Category.CategoryName</MudTd>
             <MudTd DataLabel="Quantity Per Unit">@context.QuantityPerUnit</MudTd>
             <MudTd DataLabel="Price">@context.UnitPrice</MudTd>
+            <MudTd DataLabel="">
+                <MudButton Variant="Variant.Text" OnClick="@(() => EditProduct(@context.ProductID))">Edit</MudButton>
+            </MudTd>
         </RowTemplate>
        <PagerContent>
             <MudTablePager HideRowsPerPage="true"
