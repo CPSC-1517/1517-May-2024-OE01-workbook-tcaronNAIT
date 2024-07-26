@@ -1,0 +1,106 @@
+﻿@page "/productdav/{productId:int?}"
+<!--
+    is the page directive (above) we can specify if we want a parameter.
+    This page directive allows for a int to be passed to the page
+    the ? allows it to be nullable, which means it doesn't have to be passed to the page
+    for the page to display/render (it allows the parameter to not be passed as needed)
+-->
+<PageTitle>Product Info</PageTitle>
+
+<MudText Typo="Typo.h4" Class="mt-4">Product Info</MudText>
+
+@if (errorMessages.Count > 0)
+{
+    <MudPaper Elevation="0" Outlined="true">
+        <MudText Typo="Typo.h6">Please fix the following issues:</MudText>
+        @foreach (var error in errorMessages)
+        {
+            <MudText Color="Color.Error" Typo="Typo.body2">@error</MudText>
+        }
+        @foreach (var error in errors)
+        {
+            <MudText Color="Color.Error" Typo="Typo.body2">@error</MudText>
+        }
+    </MudPaper>
+}
+<EditForm Model="@CurrentProduct" OnValidSubmit="UpdateProduct" >
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="6">
+            <MudCard>
+                <MudCardHeader>
+                    <MudText Typo="Typo.h6">General</MudText>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTextField @bind-Value="@CurrentProduct.ProductID"
+                                  Label="Product ID"
+                                  Variant="Variant.Outlined"
+                                  ReadOnly="true" />
+                    <MudTextField @bind-Value="@CurrentProduct.ProductName"
+                                  For="@(() => CurrentProduct.ProductName)"
+                                  Label="Product Name"
+                                  Variant="Variant.Outlined"
+                                  Immediate="true" />
+                    <MudSelect @bind-Value="@CurrentProduct.Category"
+                               Label="Category"
+                               Variant="Variant.Outlined"
+                               Immediate="true"
+                               Required
+                               RequiredError="Category is required.">
+                        @foreach (var category in categories)
+                        {
+                            <MudSelectItem Value="@category">@category.CategoryName</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudSelect @bind-Value="@CurrentProduct.Supplier"
+                               Label="Supplier"
+                               Variant="Variant.Outlined"
+                               Immediate="true"
+                               Required
+                               RequiredError="Supplier is required.">
+                        @foreach (var supplier in suppliers)
+                        {
+                            <MudSelectItem Value="@supplier">@supplier.CompanyName</MudSelectItem>
+                        }
+                    </MudSelect>
+                    @* <MudCheckBox T="bool" Color="Color.Primary" Label="Discontinued" LabelPosition="LabelPosition.Start"></MudCheckBox> *@
+                    <MudSwitch @bind-Value="@CurrentProduct.Discontinued" Color="Color.Error" UncheckedColor="Color.Primary" Label="Discontinued" LabelPosition="LabelPosition.Start"></MudSwitch>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudCard Class="mud-height-full">
+                <MudCardHeader>
+                    <MudText Typo="Typo.h6">Pricing and Order</MudText>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudNumericField @bind-Value="@CurrentProduct.UnitPrice"
+                                     For="@(() => CurrentProduct.UnitPrice)"
+                                     T="decimal"
+                                     Label="Unit Price"
+                                     Variant="Variant.Outlined"
+                                     Immediate="true"
+                                     Min="0" />
+                    <MudNumericField @bind-Value="@CurrentProduct.MinimumOrderQuantity"
+                                     T="short?"
+                                     Label="Min Order Qty"
+                                     Variant="Variant.Outlined"
+                                     Immediate="true"
+                                     Min="0" />
+                    <MudTextField @bind-Value=@CurrentProduct.QuantityPerUnit
+                                  For="@(() => CurrentProduct.QuantityPerUnit)"
+                                  Label="Quantity Per Order"
+                                  Variant="Variant.Outlined"
+                                  Immediate="true"/>
+                    <MudNumericField @bind-Value="@CurrentProduct.UnitsOnOrder"
+                                     Label="Units on Order"
+                                     Variant="Variant.Outlined"
+                                     ReadOnly="true" />
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+    <MudPaper Elevation="0" Class="mt-4">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">Update Product</MudButton>
+    </MudPaper>
+</EditForm>

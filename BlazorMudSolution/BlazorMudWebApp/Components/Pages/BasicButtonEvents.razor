@@ -1,0 +1,81 @@
+﻿@page "/basicevents"
+
+<PageTitle>Basic Events</PageTitle>
+
+<MudText Typo="Typo.h3" Color="Color.Primary">Basic Button Events</MudText>
+<MudText Typo="Typo.h5">Learning about Buttons and Events!!</MudText>
+
+<MudForm>
+    <MudTextField T="string" Label="Random String" @bind-value="@inputValue" Immediate="true"></MudTextField>
+    <MudButton OnClick="OnClickMethod" Variant="Variant.Filled" Style="margin-top:5px;">Click The Button</MudButton>
+</MudForm>
+<br />
+<MudText Typo="Typo.body1">@feedback</MudText>
+<br />
+<br />
+<MudText Typo="Typo.h5">Basic Calculator</MudText>
+<br />
+
+<MudContainer MaxWidth="MaxWidth.Medium">
+    <MudForm>
+        <MudCard>
+            <MudCardContent>
+                <MudNumericField @bind-Value="@firstNumber" Immediate="true" Label="First Number" />
+                <MudNumericField @bind-Value="@secondNumber" Immediate="true" Label="Second Number" />
+                <MudText Typo="Typo.body1" Align="Align.Right"><b>Result:</b> @results</MudText>
+            </MudCardContent>
+            <MudCardActions >
+                <MudSpacer />
+                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled" DisableElevation="true">
+                    <MudButton StartIcon="@Icons.Material.Filled.Add" OnClick="AddNumbers" Class="rounded-l-xl">Add</MudButton>
+                    <MudButton StartIcon="@Icons.Material.Filled.Minimize" OnClick="SubNumbers">Subtract</MudButton>
+                    <MudButton StartIcon="@Icons.Material.Filled.Close" OnClick="MultiplyNumbers">Multiply</MudButton>
+                    <MudButton StartIcon="@Icons.Material.Filled.ScubaDiving" OnClick="DivideNumbers" Class="rounded-r-xl">Divide</MudButton>
+                </MudButtonGroup>
+                <MudSpacer />
+            </MudCardActions>
+        </MudCard>
+    </MudForm>
+</MudContainer>
+<br />
+
+
+
+@code {
+    private string inputValue = "";
+    private string feedback = "";
+
+    private void OnClickMethod()
+    {
+        feedback = $"You enter the value {inputValue}!";
+    }
+
+    //Calculator Stuff
+    private int firstNumber;
+    private int secondNumber;
+    private decimal results;
+
+    private void AddNumbers()
+    {
+        results = firstNumber + secondNumber;
+    }
+    private void SubNumbers()
+    {
+        results = firstNumber - secondNumber;
+    }
+    private void MultiplyNumbers()
+    {
+        results = firstNumber * secondNumber;
+    }
+    private void DivideNumbers()
+    {
+        if(secondNumber == 0)
+        {
+            results = 0;
+        }
+        else
+        {
+            results = (decimal)firstNumber / secondNumber;
+        }
+    }
+}

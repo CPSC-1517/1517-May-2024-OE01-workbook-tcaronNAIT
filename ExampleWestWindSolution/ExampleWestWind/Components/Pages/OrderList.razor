@@ -1,0 +1,64 @@
+﻿@page "/orders"
+
+<PageTitle>Order Report</PageTitle>
+
+<MudText Typo="Typo.h4">Order Report</MudText>
+
+@if (errorMessages.Count > 0)
+{
+    <MudPaper Elevation="0" Outlined="true">
+        <MudText Typo="Typo.h6">Please fix the following issues:</MudText>
+        @foreach (var error in errorMessages)
+        {
+            <MudText Color="Color.Error" Typo="Typo.body2">@error</MudText>
+        }
+    </MudPaper>
+}
+<MudGrid Justify="Justify.Center" Class="mb-4">
+    <MudItem xs="12" sm="6">
+        <MudTextField T="string"
+                      @bind-Value="customerSearch"
+                      Label="Enter a customer or partial customer name"
+                      Variant="Variant.Outlined"
+                      Immediate="true" />
+    </MudItem>
+    <MudItem xs="12" sm="6" Class="d-flex flex-wrap align-center">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SearchOrders">Search Orders</MudButton>
+    </MudItem>
+</MudGrid>
+
+@if(orders.Count == 0 && !noOrders)
+{
+    <MudText Typo="Typo.h5">Please enter a company search.</MudText>
+}
+else if (noOrders)
+{
+    <MudText Typo="Typo.h5">No orders found with the search term provided.</MudText>
+}
+else
+{
+    <MudTable Items="orders" Class="mt-4">
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<Order, object>(x=>x.OrderID)">Order ID</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Order, object>(x=>x.OrderDate.Value)">Order Date</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Order, object>(x=>x.SalesRep.FullName)">Sales Rep</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Order, object>(x=>x.Customer.CompanyName)">Customer</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Order, object>(x=>x.Shipped)">Shipped</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Order ID">@context.OrderID</MudTd>
+            <MudTd DataLabel="Order Date">@context.OrderDate.Value.ToString("MMM dd, yyyy")</MudTd>
+            <MudTd DataLabel="Sales Rep">@context.SalesRep.FullName</MudTd>
+            <MudTd DataLabel="Customer">@context.Customer.CompanyName</MudTd>
+            <MudTd DataLabel="Shipped">
+                <div class="d-flex flex-wrap justify-center">
+                    <MudCheckBox @bind-Value="@(context.Shipped)" ReadOnly="true"></MudCheckBox>
+                </div>
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager HideRowsPerPage="true"
+                           PageSizeOptions="new int[] {8}" />
+        </PagerContent>
+    </MudTable>
+}
