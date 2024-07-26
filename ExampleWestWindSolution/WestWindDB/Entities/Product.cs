@@ -18,16 +18,16 @@ public partial class Product
     [Key]
     public int ProductID { get; set; }
 
-    [Required]
-    [StringLength(40)]
+    [Required(ErrorMessage = "Product Name is required.")]
+    [StringLength(40, ErrorMessage = "Purchase Date cannot be more than 40 characters.")]
     public string ProductName { get; set; }
 
     public int SupplierID { get; set; }
 
     public int CategoryID { get; set; }
 
-    [Required]
-    [StringLength(20)]
+    [Required(ErrorMessage = "Quantity per unit is required.")]
+    [StringLength(20, ErrorMessage = "Quantity per unit cannot be more than 20 characters.")]
     public string QuantityPerUnit { get; set; }
 
     public short? MinimumOrderQuantity { get; set; }

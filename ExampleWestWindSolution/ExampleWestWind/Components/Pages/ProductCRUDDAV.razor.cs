@@ -5,11 +5,8 @@ using WestWindDB.Entities;
 
 namespace ExampleWestWind.Components.Pages
 {
-    public partial class ProductCRUD
+    public partial class ProductCRUDDAV
     {
-        //this parameter matches to the parameter defined in the page directive
-        //you must identify with annotation to identify it as a parameter
-        //the datatype and name must match the page directive parameter.
         [Parameter]
         public int? productId { get; set; }
 
@@ -58,6 +55,11 @@ namespace ExampleWestWind.Components.Pages
             }
 
             return string.Empty;
+        }
+
+        private void UpdateProduct()
+        {
+
         }
 
         private Exception GetInnerException(Exception ex)
