@@ -28,6 +28,8 @@ namespace ExampleWestWind.Components.Pages
         private List<string> errorMessages = [];
         private MudForm form = new();
         private string[] errors = [];
+        private string feedback = string.Empty;
+        bool isNew = false;
 
         protected override void OnInitialized()
         {
@@ -38,6 +40,10 @@ namespace ExampleWestWind.Components.Pages
                 if(productId.HasValue)
                 {
                     CurrentProduct = _productServices.Products_GetByProductID(productId.Value);
+                }
+                else
+                {
+                    isNew = true;
                 }
             }
             catch (Exception ex)
@@ -58,6 +64,37 @@ namespace ExampleWestWind.Components.Pages
             }
 
             return string.Empty;
+        }
+
+        private void UpdateProduct()
+        {
+            errorMessages.Clear();
+            feedback = string.Empty;
+            form.Validate();
+
+            if(form.IsValid)
+            {
+                try
+                {
+                    int rowsAffected = _productServices.Products_UpdateProduct(CurrentProduct);
+
+                    if (rowsAffected == 0)
+                    {
+                        errorMessages.Add($"Product {CurrentProduct.ProductName} has not been updated. Please check to see if the product is still on file.");
+                    }
+
+                    feedback = $"Product {CurrentProduct.ProductName} was successfully updated.";
+                }
+                catch (Exception ex)
+                {
+                    errorMessages.Add($"Save Error: {GetInnerException(ex).Message}");
+                }
+            }
+        }
+
+        private void AddProduct()
+        {
+
         }
 
         private Exception GetInnerException(Exception ex)

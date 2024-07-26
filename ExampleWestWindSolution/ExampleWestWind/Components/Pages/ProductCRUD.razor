@@ -17,10 +17,6 @@
         {
             <MudText Color="Color.Error" Typo="Typo.body2">@error</MudText>
         }
-        @foreach (var error in errors)
-        {
-            <MudText Color="Color.Error" Typo="Typo.body2">@error</MudText>
-        }
     </MudPaper>
 }
 <MudForm @ref="form" @bind-Errors="errors">
@@ -100,6 +96,7 @@
         </MudItem>
     </MudGrid>
     <MudPaper Elevation="0" Class="mt-4">
-        <MudButton Variant="Variant.Filled" Color="Color.Primary">Update Product</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(isNew ? AddProduct : UpdateProduct)">@(isNew ? "Add Product" : "Update Product")</MudButton>
     </MudPaper>
 </MudForm>
+<MudText Typo="Typo.h6" Color="Color.Success">@feedback</MudText>

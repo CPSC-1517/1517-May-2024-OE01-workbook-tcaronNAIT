@@ -32,6 +32,13 @@
                    Color="Color.Primary">
             Search Products
         </MudButton>
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Secondary"
+                   StartIcon="@Icons.Material.Filled.AddCircle"
+                   Href="/product">
+            Add Product
+        </MudButton>
     </MudItem>
 </MudGrid>
 @if (products.Count == 0 && !noProducts)
@@ -72,7 +79,7 @@ else
             <MudTd DataLabel="Supplier">@context.Supplier.CompanyName</MudTd>
             <MudTd DataLabel="Category">@context.Category.CategoryName</MudTd>
             <MudTd DataLabel="Quantity Per Unit">@context.QuantityPerUnit</MudTd>
-            <MudTd DataLabel="Price">@context.UnitPrice</MudTd>
+            <MudTd DataLabel="Price">@context.UnitPrice.ToString("C2")</MudTd>
             <MudTd DataLabel="">
                 <MudButton Variant="Variant.Text" OnClick="@(() => EditProduct(@context.ProductID))">Edit</MudButton>
             </MudTd>
