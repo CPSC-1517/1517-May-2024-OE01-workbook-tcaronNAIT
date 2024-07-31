@@ -77,6 +77,46 @@ namespace WestWindDB.BLL
             //the returned value for an update is the number of rows affected.
             return _context.SaveChanges();
         }
+
+        public int Product_AddProduct(Product product)
+        {
+            if(product == null)
+            {
+                throw new ArgumentNullException("You must supply the product information.");
+            }
+
+            //Business Rule Example
+            //Does this product already exist?
+            bool exists = _context.Products
+                            .Any(p => p.SupplierID  == product.SupplierID
+                            && p.ProductName == product.ProductName
+                            && p.QuantityPerUnit == product.QuantityPerUnit);
+
+            if(exists)
+            {
+                throw new ArgumentException("Product already exists on file.");
+            }
+
+            //You could also add any other specific logic to check
+
+            //Once you determine the data is good to go into the database
+                //then you start the stage and commit
+
+            //Staging
+            //IMPORTANT - Remember this is only in local memory
+            //This staging has not been sent to the database yet
+            //There is no ID for this product
+            _context.Products.Add(product);
+
+            //Commit
+            //This send the local data to the database
+            _context.SaveChanges();
+
+            //Now the product we created has a ID
+            //In this case the database automatically created an ID
+
+            return product.ProductID;
+        }
         #endregion
     }
 }

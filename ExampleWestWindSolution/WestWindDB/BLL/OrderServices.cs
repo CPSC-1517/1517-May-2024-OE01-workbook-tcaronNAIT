@@ -24,6 +24,7 @@ namespace WestWindDB.BLL
 		public List<Order> GetAllOrders()
 		{
 			return _context.Orders.Include(o => o.SalesRep).Include(o => o.Customer).OrderBy(o => o.SalesRep.FirstName).ThenBy(o => o.SalesRep.LastName).ToList();
+			return _context.Orders.Include(o => o.SalesRep).Include(o => o.Customer).OrderBy(o => o.SalesRep.FirstName).ThenBy(o => o.SalesRep.LastName).ToList();
 		}
 
 		public List<Order> GetOrders_ByCustomerName(string customerName)

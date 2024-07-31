@@ -94,7 +94,25 @@ namespace ExampleWestWind.Components.Pages
 
         private void AddProduct()
         {
+            form.Validate();
+            if(form.IsValid)
+            {
+                try
+                {
+                    //The product when created return to us the new product id!
+                    int newProductID = _productServices.Product_AddProduct(CurrentProduct);
 
+                    feedback = $"Product {CurrentProduct.ProductName} was created (Product ID: {newProductID})";
+
+                    CurrentProduct.ProductID = newProductID;
+                    isNew = false;
+                }
+                catch (Exception ex)
+                {
+                    errorMessages.Add($"Save Error: {GetInnerException(ex).Message}");
+                }
+            }
+            
         }
 
         private Exception GetInnerException(Exception ex)
