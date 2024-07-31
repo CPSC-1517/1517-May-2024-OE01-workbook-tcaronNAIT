@@ -117,6 +117,50 @@ namespace WestWindDB.BLL
 
             return product.ProductID;
         }
+
+        public int Product_PhysicalDelete(Product product)
+        {
+            //Physical Delete
+            //Removed the record from the data
+            //If there are child records to prevent the record removal
+                //You can remove the record
+            //if there are child records AND the child record are required
+                //You cannot delete the record!
+                //You would need to delete the child first
+                //This assumes there is no cascade delete set up in the database
+
+            if(product == null)
+            {
+                throw new ArgumentNullException("You must supply the product information.");
+            }
+
+            //check if the product exists
+            Product? exists = _context.Products.FirstOrDefault(p => p.ProductID == product.ProductID);
+
+            if(exists == null)
+            {
+                throw new ArgumentException($"Product {product.ProductName} (id: {product.ProductID}) is no longer on file.");
+            }
+
+            //check for child records, this is good practice
+            int existingChildren = exists.ManifestItems.Count;
+            existingChildren += exists.OrderDetails.Count;
+
+            //Example business rule, if child records exists you cannot delete
+            if(existingChildren > 0)
+            {
+                throw new ArgumentException($"Product {product.ProductName} (id: {product.ProductID}) has related information on file. Unable to delete.");
+            }
+
+            //Staging
+            EntityEntry<Product> deleting = _context.Entry(exists);
+            deleting.State = EntityState.Deleted;
+
+            //Commit
+            //the return value from that data for a delete is the number of rows affected
+
+            return _context.SaveChanges();
+        }
         #endregion
     }
 }

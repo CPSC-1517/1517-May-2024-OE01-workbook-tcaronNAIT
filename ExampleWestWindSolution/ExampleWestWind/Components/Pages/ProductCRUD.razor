@@ -95,8 +95,10 @@
             </MudCard>
         </MudItem>
     </MudGrid>
-    <MudPaper Elevation="0" Class="mt-4">
+    <MudPaper Elevation="0" Class="mt-4 d-flex flex-wrap">
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(isNew ? AddProduct : UpdateProduct)">@(isNew ? "Add Product" : "Update Product")</MudButton>
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="DeleteProduct">Delete Product</MudButton>
     </MudPaper>
 </MudForm>
 <MudText Typo="Typo.h6" Color="Color.Success">@feedback</MudText>
