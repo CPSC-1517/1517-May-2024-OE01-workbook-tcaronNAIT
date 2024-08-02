@@ -27,6 +27,7 @@ namespace ExampleWestWind.Components.Pages
 
         [Inject] NavigationManager _navigationManager { get; set; }
         [Inject] IDialogService _dialogService { get; set; }
+        [Inject] ISnackbar _snackBar { get; set; }
 
         private List<string> errorMessages = [];
         private MudForm form = new();
@@ -147,12 +148,18 @@ namespace ExampleWestWind.Components.Pages
                     else
                     {
                         feedback = $"Product {CurrentProduct.ProductName} (id: {CurrentProduct.ProductID}) has been deleted.";
-                        //Clear the current product
-                        CurrentProduct = new Product();
-                        //Force the Address bar to update
-                        _navigationManager.NavigateTo($"product");
-                        //Treat the page as if the user wants to add a new product.
-                        isNew = true;
+
+                        //Option to stay on the same page and clear the product.
+                        ////Clear the current product
+                        //CurrentProduct = new Product();
+                        ////Force the Address bar to update
+                        //_navigationManager.NavigateTo($"product");
+                        ////Treat the page as if the user wants to add a new product.
+                        //isNew = true;
+
+                        //Option to Navigate back to the search page and show snackbar message about the deletion.
+                        _snackBar.Add($"Product {CurrentProduct.ProductName} (id: {CurrentProduct.ProductID}) has been deleted.", Severity.Success, config => { config.ShowCloseIcon = false; });
+                        _navigationManager.NavigateTo($"products");
 
                     }
                 }
@@ -161,6 +168,11 @@ namespace ExampleWestWind.Components.Pages
                     errorMessages.Add($"Delete Error: {GetInnerException(ex).Message}");
                 }
             }
+        }
+
+        private void DeactivateProduct()
+        {
+
         }
 
         private Exception GetInnerException(Exception ex)

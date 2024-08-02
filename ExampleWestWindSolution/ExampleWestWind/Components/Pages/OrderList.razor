@@ -43,6 +43,7 @@ else
             <MudTh><MudTableSortLabel SortBy="new Func<Order, object>(x=>x.OrderDate.Value)">Order Date</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortBy="new Func<Order, object>(x=>x.SalesRep.FullName)">Sales Rep</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortBy="new Func<Order, object>(x=>x.Customer.CompanyName)">Customer</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Order, object>(x=>x.Payments.FirstOrDefault()?.Amount)">First CC Payment</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortBy="new Func<Order, object>(x=>x.Shipped)">Shipped</MudTableSortLabel></MudTh>
         </HeaderContent>
         <RowTemplate>
@@ -50,6 +51,7 @@ else
             <MudTd DataLabel="Order Date">@context.OrderDate.Value.ToString("MMM dd, yyyy")</MudTd>
             <MudTd DataLabel="Sales Rep">@context.SalesRep.FullName</MudTd>
             <MudTd DataLabel="Customer">@context.Customer.CompanyName</MudTd>
+            <MudTd DataLabel="First CC Payment">@context.Payments.FirstOrDefault()?.Amount.ToString("C2")</MudTd>
             <MudTd DataLabel="Shipped">
                 <div class="d-flex flex-wrap justify-center">
                     <MudCheckBox @bind-Value="@(context.Shipped)" ReadOnly="true"></MudCheckBox>

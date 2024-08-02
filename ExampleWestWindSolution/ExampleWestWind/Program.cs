@@ -1,5 +1,6 @@
 using ExampleWestWind.Components;
 using Microsoft.EntityFrameworkCore;
+using MudBlazor;
 using MudBlazor.Services;
 using WestWindDB;
 
@@ -13,7 +14,11 @@ builder.Services.WestWindExtentionServices(options => options.UseSqlServer(conne
 builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents();
 
-builder.Services.AddMudServices();
+builder.Services.AddMudServices(config =>
+{
+	config.SnackbarConfiguration.VisibleStateDuration = 10000;
+	config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
+});
 
 var app = builder.Build();
 

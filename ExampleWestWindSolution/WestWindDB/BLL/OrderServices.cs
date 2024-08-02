@@ -24,13 +24,11 @@ namespace WestWindDB.BLL
 		public List<Order> GetAllOrders()
 		{
 			return _context.Orders.Include(o => o.SalesRep).Include(o => o.Customer).OrderBy(o => o.SalesRep.FirstName).ThenBy(o => o.SalesRep.LastName).ToList();
-			return _context.Orders.Include(o => o.SalesRep).Include(o => o.Customer).OrderBy(o => o.SalesRep.FirstName).ThenBy(o => o.SalesRep.LastName).ToList();
 		}
 
 		public List<Order> GetOrders_ByCustomerName(string customerName)
 		{
-            return _context.Orders.Include(o => o.SalesRep).Include(o => o.Customer).OrderBy(o => o.SalesRep.FirstName).ThenBy(o => o.SalesRep.LastName).Where(o => o.Customer.CompanyName.ToLower().Contains(customerName.ToLower())).ToList();
-			//return _context.Orders.Include(o => o.SalesRep).Include(o => o.Customer).OrderBy(o => o.SalesRep.FirstName).ThenBy(o => o.SalesRep.LastName).Where(o => CultureInfo.CurrentCulture.CompareInfo.IndexOf(o.Customer.CompanyName, customerName, CompareOptions.IgnoreCase) >= 0).ToList();
+            return _context.Orders.Include(o => o.SalesRep).Include(o => o.Customer).Include(o => o.Payments).OrderBy(o => o.SalesRep.FirstName).ThenBy(o => o.SalesRep.LastName).Where(o => o.Customer.CompanyName.ToLower().Contains(customerName.ToLower())).ToList();
         }
 
 		#endregion
