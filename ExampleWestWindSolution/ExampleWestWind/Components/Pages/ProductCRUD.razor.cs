@@ -16,6 +16,7 @@ namespace ExampleWestWind.Components.Pages
         [Inject]
         private ProductServices _productServices { get; set; }
         private Product CurrentProduct = new();
+        private Product SameProduct = new();
 
         [Inject]
         private CategoryServices _categoryServices { get; set; }
@@ -45,7 +46,29 @@ namespace ExampleWestWind.Components.Pages
                 {
                     try
                     {
+
+                        //This CurrentProduct points to the product retrieved from the list of products in our DBSet<Product>
                         CurrentProduct = _productServices.Products_GetByProductID(productId.Value);
+                        //How to escape just having a pointer, making a whole new Product.
+                        //May be the behavior you want if you want to rollback changes, or only Discontinue and not make other updates, etc.
+                        //SameProduct = new Product
+                        //{
+                        //    ProductID = CurrentProduct.ProductID,
+                        //    UnitPrice = CurrentProduct.UnitPrice,
+                        //    Discontinued = CurrentProduct.Discontinued,
+                        //    CategoryID = CurrentProduct.CategoryID,
+                        //    ManifestItems = CurrentProduct.ManifestItems,
+                        //    ProductName = CurrentProduct.ProductName,
+                        //    MinimumOrderQuantity = CurrentProduct.MinimumOrderQuantity,
+                        //    QuantityPerUnit = CurrentProduct.QuantityPerUnit,
+                        //    OrderDetails = CurrentProduct.OrderDetails,
+                        //    Category = CurrentProduct.Category,
+                        //    Supplier = CurrentProduct.Supplier,
+                        //    SupplierID = CurrentProduct.SupplierID,
+                        //    UnitsOnOrder = CurrentProduct.UnitsOnOrder
+                        //};
+                        //CurrentProduct.Discontinued = false;
+                        //SameProduct.UnitPrice = 4;
                     }
                     catch (Exception ex)
                     {
@@ -94,8 +117,10 @@ namespace ExampleWestWind.Components.Pages
                     {
                         errorMessages.Add($"Product {CurrentProduct.ProductName} has not been updated. Please check to see if the product is still on file.");
                     }
-
-                    feedback = $"Product {CurrentProduct.ProductName} was successfully updated.";
+                    else
+                    {
+                        feedback = $"Product {CurrentProduct.ProductName} was successfully updated.";
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -172,7 +197,30 @@ namespace ExampleWestWind.Components.Pages
 
         private void DeactivateProduct()
         {
+            errorMessages.Clear();
+            feedback = string.Empty;
+            form.Validate();
 
+            if(form.IsValid)
+            {
+                try
+                {
+                    int rowsAffected = _productServices.Product_LogicalDelete(CurrentProduct);
+
+                    if (rowsAffected == 0)
+                    {
+                        errorMessages.Add($"Product {CurrentProduct.ProductName} has not been discontinued. Please check to see if the product is still on file.");
+                    }
+                    else
+                    {
+                        feedback = $"Product {CurrentProduct.ProductName} was successfully updated and discontinued.";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    errorMessages.Add($"Save Error: {GetInnerException(ex).Message}");
+                }
+            }
         }
 
         private Exception GetInnerException(Exception ex)

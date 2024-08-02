@@ -156,6 +156,46 @@ namespace WestWindDB.BLL
 
             return _context.SaveChanges();
         }
+
+        //Only Discontinue, no other updates Example
+        public int Product_LogicalDelete(Product product)
+        {
+            //Logical Delete
+            //typically updating a flag in the database to show the record
+            //is inactive, or discontinue, etc.
+            //Typically used when we don't want to completely remove records
+                //This is more common then physical deletes in Enterprise Programs.
+            //Used when there are child records as well, cannot delete all related records just to delete one record.
+            //Treated like an update to the record.
+
+            if(product == null)
+            {
+                throw new ArgumentNullException("You must supply the product information.");
+            }
+
+            bool exists = _context.Products.Any(p => p.ProductID == product.ProductID);
+
+            if(!exists)
+            {
+                throw new ArgumentException($"Product {product.ProductName} (id: {product.ProductID}) is no longer on file.");
+            }
+
+            //Can have business rule logic for a logical delete as well
+                //Ex: Can't discontinue when there is an active order, etc.
+
+            //We need to change the record to make the logical delete true (or false depending on the record)
+            //In this case we need to make the discontinued = true
+            product.Discontinued = true;
+
+            //Staging - Save to the local memory
+            EntityEntry<Product> updating = _context.Entry(product);
+            updating.State = EntityState.Modified;
+
+            //Commit
+            //the returned value for an logical delete is the number of rows affected.
+            return _context.SaveChanges();
+
+        }
         #endregion
     }
 }
