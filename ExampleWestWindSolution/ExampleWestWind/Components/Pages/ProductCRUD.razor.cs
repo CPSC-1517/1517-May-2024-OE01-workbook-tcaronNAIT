@@ -222,6 +222,33 @@ namespace ExampleWestWind.Components.Pages
                 }
             }
         }
+        private void ReactivateProduct()
+        {
+            errorMessages.Clear();
+            feedback = string.Empty;
+            form.Validate();
+
+            if(form.IsValid)
+            {
+                try
+                {
+                    int rowsAffected = _productServices.Product_Reactivate(CurrentProduct);
+
+                    if (rowsAffected == 0)
+                    {
+                        errorMessages.Add($"Product {CurrentProduct.ProductName} has not been reactivated. Please check to see if the product is still on file.");
+                    }
+                    else
+                    {
+                        feedback = $"Product {CurrentProduct.ProductName} was successfully updated and reactivated.";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    errorMessages.Add($"Save Error: {GetInnerException(ex).Message}");
+                }
+            }
+        }
 
         private Exception GetInnerException(Exception ex)
         {

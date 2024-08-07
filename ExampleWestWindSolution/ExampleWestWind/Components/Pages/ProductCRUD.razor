@@ -30,7 +30,7 @@
                     <MudTextField @bind-Value="@CurrentProduct.ProductID" 
                                   Label="Product ID" 
                                   Variant="Variant.Outlined" 
-                                  ReadOnly="true" />
+                                  ReadOnly="!isNew" />
                     <MudTextField @bind-Value="@CurrentProduct.ProductName" 
                                   Label="Product Name" 
                                   Variant="Variant.Outlined"
@@ -41,8 +41,10 @@
                                Label="Category" 
                                Variant="Variant.Outlined"
                                Immediate="true"
+                               Placeholder="Select a Category..."
                                Required
-                               RequiredError="Category is required.">
+                               RequiredError="Category is required."
+                               Clearable="true" >
                         @foreach(var category in categories)
                         {
                             <MudSelectItem Value="@category">@category.CategoryName</MudSelectItem>
@@ -60,7 +62,7 @@
                         }
                     </MudSelect>
                     @* <MudCheckBox T="bool" Color="Color.Primary" Label="Discontinued" LabelPosition="LabelPosition.Start"></MudCheckBox> *@
-                    <MudSwitch @bind-Value="@CurrentProduct.Discontinued" Color="Color.Error" UncheckedColor="Color.Primary" Label="Discontinued" LabelPosition="LabelPosition.Start"></MudSwitch>
+                    <MudSwitch @bind-Value="@CurrentProduct.Discontinued" Color="Color.Error" UncheckedColor="Color.Primary" Label="@(CurrentProduct.Discontinued ? "Discontinued" : "Active")" LabelPosition="@(CurrentProduct.Discontinued ?LabelPosition.End : LabelPosition.Start)" ReadOnly="true"></MudSwitch>
                 </MudCardContent>
             </MudCard>
         </MudItem>
@@ -98,7 +100,7 @@
     <MudPaper Elevation="0" Class="mt-4 d-flex flex-wrap">
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(isNew ? AddProduct : UpdateProduct)">@(isNew ? "Add Product" : "Update Product")</MudButton>
         <MudSpacer />
-        <MudButton Variant="Variant.Filled" Color="Color.Warning" Class="@(isNew || CurrentProduct.Discontinued == true ? "invisible mr-4" : "mr-4")" OnClick="DeactivateProduct">Discontinue Product</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Warning" Class="@(isNew == true ? "invisible mr-4" : "mr-4")" OnClick="@(CurrentProduct.Discontinued ? ReactivateProduct : DeactivateProduct)">@(CurrentProduct.Discontinued ? "Reactivate Product" : "Discontinue Product")</MudButton>
         <MudButton Variant="Variant.Filled" Color="Color.Error" Class="@(isNew ? "invisible" : "")" OnClick="DeleteProduct">Delete Product</MudButton>
     </MudPaper>
 </MudForm>

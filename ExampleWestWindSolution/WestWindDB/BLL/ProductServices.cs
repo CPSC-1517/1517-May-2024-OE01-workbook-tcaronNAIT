@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient.DataClassification;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using WestWindDB.DAL;
 using WestWindDB.Entities;
@@ -9,7 +10,7 @@ namespace WestWindDB.BLL
     {
         private readonly WestWindContext _context;
 
-        internal ProductServices(WestWindContext context)
+        public ProductServices(WestWindContext context)
         {
             _context = context;
         }
@@ -195,6 +196,26 @@ namespace WestWindDB.BLL
             //the returned value for an logical delete is the number of rows affected.
             return _context.SaveChanges();
 
+        }
+
+        public int Product_Reactivate(Product product)
+        {
+            if(product == null)
+            {
+                throw new ArgumentNullException("You must supply the product information.");
+            }
+
+            bool exists = _context.Products.Any(p => p.ProductID == product.ProductID);
+
+            if(!exists)
+            {
+                throw new ArgumentException($"Product {product.ProductName} (id: {product.ProductID}) is no longer on file.");
+            }
+
+            product.Discontinued = false;
+            EntityEntry<Product> updating = _context.Entry(product);
+            updating.State = EntityState.Modified;
+            return _context.SaveChanges();
         }
         #endregion
     }

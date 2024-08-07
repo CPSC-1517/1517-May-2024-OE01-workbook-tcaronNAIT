@@ -14,7 +14,7 @@ namespace WestWindDB.BLL
 	{
 		private readonly WestWindContext _context;
 
-		internal OrderServices(WestWindContext context)
+		public OrderServices(WestWindContext context)
 		{
 			_context = context;
 		}

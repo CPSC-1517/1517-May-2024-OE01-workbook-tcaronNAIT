@@ -53,7 +53,7 @@ else if (noProducts)
 }
 else
 {
-    <MudTable Items="products" Loading="@loading">
+    <MudTable Items="products" Loading="@loading" Height="500px" Striped="true">
         <HeaderContent>
             <MudTh>
                 <MudTableSortLabel SortBy="new Func<Product, object>(x=>x.ProductID)">Product ID</MudTableSortLabel>
@@ -88,7 +88,7 @@ else
         </RowTemplate>
        <PagerContent>
             <MudTablePager HideRowsPerPage="true"
-                           PageSizeOptions="new int[] {6}" />
+                           PageSizeOptions="new int[] {10}" />
        </PagerContent>
     </MudTable> 
 }

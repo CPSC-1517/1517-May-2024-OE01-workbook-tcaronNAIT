@@ -12,7 +12,7 @@ namespace WestWindDB.BLL
     {
         private readonly WestWindContext _context;
 
-        internal CategoryServices(WestWindContext context)
+        public CategoryServices(WestWindContext context)
         {
             _context = context;
         }

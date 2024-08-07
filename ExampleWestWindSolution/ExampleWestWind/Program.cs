@@ -3,12 +3,23 @@ using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 using MudBlazor.Services;
 using WestWindDB;
+using WestWindDB.BLL;
+using WestWindDB.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("WWDB");
+//var connectionString = builder.Configuration.GetConnectionString("WWDB");
 
-builder.Services.WestWindExtentionServices(options => options.UseSqlServer(connectionString));
+//builder.Services.WestWindExtentionServices(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<WestWindContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("WWDB")));
+
+builder.Services.AddScoped<ProductServices>();
+builder.Services.AddScoped<OrderServices>();
+builder.Services.AddScoped<SupplierServices>();
+builder.Services.AddScoped<CategoryServices>();
+
+
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
