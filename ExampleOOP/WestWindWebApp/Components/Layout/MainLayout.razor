@@ -1,0 +1,73 @@
+﻿@inherits LayoutComponentBase
+
+@* 
+    Provide the Theme to the MudThemeProvider 
+    To bind DarkMode (create a PaletteDark and add a @bind-IsDarkMode)
+*@
+<MudThemeProvider Theme="MTTheme" @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudLink Href="/" Color="Color.Inherit">CRUD Application</MudLink>
+        <MudSpacer />
+        <MudLink Href="/" Color="Color.Inherit">CRUD Application</MudLink>
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen" ClipMode="DrawerClipMode.Docked">
+        <NavMenu/>
+    </MudDrawer>
+    <MudMainContent Style="margin-top:8px;margin-bottom:64px;">
+        <MudContainer MaxWidth="MaxWidth.Large">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+    <MudAppBar Bottom="true" Fixed="true" Class="align-center">
+        <MudText Typo="Typo.body1" Align="Align.Center">© copyright educational purposes: Tina Caron, OE01, Tina Caron</MudText>
+    </MudAppBar>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = true;
+    public static bool _isDarkMode;
+    private MudThemeProvider? _mudThemeProvider;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    //This triggers after Render (hence the name) to set if the computer is set to DarkMode or not
+    //Also provides a watcher for if the System changes to dark mode or to light mode.
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+    private async Task OnSystemPreferenceChanged(bool newValue)
+    {
+        _isDarkMode = newValue;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    readonly MudTheme MTTheme = new()
+    {
+        Palette = new PaletteLight()
+        {
+            Primary = "#61707D",
+            Secondary = "#9D69A3",
+            // Remember AppBar Color is separate from Primary
+            AppbarBackground = "#61707D"
+        },
+        PaletteDark = new PaletteDark()
+        {
+            Primary = "F5FBEF",
+            Secondary = "9D69A3"
+        }
+    };
+}

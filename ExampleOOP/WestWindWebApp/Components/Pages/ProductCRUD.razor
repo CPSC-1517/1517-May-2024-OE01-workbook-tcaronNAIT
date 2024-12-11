@@ -1,0 +1,39 @@
+﻿@page "/products"
+<PageTitle>Products</PageTitle>
+
+@if (errorMessages.Count > 0)
+{
+    <div class="alert alert-danger">
+        <MudText Typo="Typo.h6">Please fix the following issues:</MudText>
+        <ul>
+            @foreach (var error in errorMessages)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
+@if(products.Count == 0)
+{
+    <MudText Typo="Typo.h5">Nothing to report.</MudText>
+}
+else
+{
+    <MudTable Items="products">
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<ProductListDTO, object>(x=>x.ProductId)">Product ID</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ProductListDTO, object>(x=>x.ProductName)">Product Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ProductListDTO, object>(x=>x.UnitPrice)">Unit Price</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ProductListDTO, object>(x=>x.CategoryName)">Category</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.ProductId</MudTd>
+            <MudTd>@context.ProductName</MudTd>
+            <MudTd>@context.UnitPrice</MudTd>
+            <MudTd>@context.CategoryName</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+}

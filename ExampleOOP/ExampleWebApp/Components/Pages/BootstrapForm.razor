@@ -1,0 +1,22 @@
+﻿@page "/form-boot"
+
+<h3>Bootstrap Form</h3>
+
+<form class="needs-validation" novalidate>
+    <div class="col-md-4">
+        <div class="input-group has-validation">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" id="firstName" required class="form-control">
+            <div class="invalid-feedback">
+                First name is required.
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</form>
+
+@code {
+
+}
